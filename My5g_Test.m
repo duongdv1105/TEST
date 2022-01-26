@@ -108,7 +108,7 @@ waveformInfo = h5gOFDMInfo(gnb);
 maxThroughput = zeros(length(SNRIn),1);
 % Array to store the simulation throughput for all SNR points
 simThroughput = zeros(length(SNRIn),1);
-trdataAll=zeros(22152,32,5);%ÆÕÍ¨cp
+trdataAll=zeros(22152,32,5);%æ™®é€šcp
 
 for snrIdx = 1:numel(SNRIn)
     txWave = [];
@@ -119,7 +119,7 @@ for snrIdx = 1:numel(SNRIn)
     RMS = zeros(32,1);
     pdschSymbolsNum = gnb.NDLRB*12*12-gnb.NDLRB*72;
     pdschSymbols = zeros(pdschSymbolsNum,32,5);
-    %²úÉú°Ë²ãPDSCHÊı¾İ
+    %äº§ç”Ÿå…«å±‚PDSCHæ•°æ®
     for layer = 1:32
         for BW = 1:5
             % Set the random number generator settings to default values
@@ -184,7 +184,7 @@ for snrIdx = 1:numel(SNRIn)
     %generate DMRS on 12 antenna
     DMRS = DMRSgenerator(gnb, 1);
     
-    %%Ó³Éä²Î¿¼ĞÅºÅ
+    %%æ˜ å°„å‚è€ƒä¿¡å·
     for port = 1:32
         temp = [];
         pdschIndices = 1:12*gnb.NDLRB*12;  
@@ -215,7 +215,7 @@ for snrIdx = 1:numel(SNRIn)
         PDSCHIndices = [PDSCHIndices pdschIndices.'];
     end
  
-    %Ó³ÉäPDSCHÊı¾İ
+    %æ˜ å°„PDSCHæ•°æ®
     txGrid = zeros(gnb.NDLRB*12*5,size(pdschGrid,2),32);
      for port = 1:32
         for BW = 1:5            
@@ -250,7 +250,7 @@ for snrIdx = 1:numel(SNRIn)
 %                 'FrequencySpan', 'Span and center frequency',...
 %                 'Span',  110e6, 'CenterFrequency', 0,...
 %                 'SpectralAverages', 10, ...
-%                 'Title', '·¢ÉäĞÅºÅÆµÆ×', 'YLimits', [-200 -0],...
+%                 'Title', 'å‘å°„ä¿¡å·é¢‘è°±', 'YLimits', [-200 -0],...
 %                 'YLabel', 'PSD');
 %             step(hSpec1,txWave(:,1));
     
@@ -291,7 +291,7 @@ for snrIdx = 1:numel(SNRIn)
 %     channel2.NormalizePathGains = 'On';   % Normalize delay profile power
 %     channel2.NormalizeTxAnts = 'On';      % Normalize for transmit antennas
 %     channel2.InitTime = gnb.NSubframe/1000;
-%     channel2.SamplingRate = length(txWave)*1e3;
+     channel2.SamplingRate = length(txWave)*1e3;
     %channel.Seed = idx;    % Set seed per subframe for larger variation
     %  - Channel estimation averaging affected
 %     rxWaveform = [];
@@ -413,7 +413,7 @@ Cost=cost_207(channeltype,1/122.88e6,0);
 %         else
 %             in(1:25:end,:)=1;
 %         end
-         % ĞŞ¸Ä
+         % ä¿®æ”¹
         rxWaveform = MIMOFadingChan(txWave,Cost,32);
 %           rxWaveform=txWave;
 %         if channeltype == 3
@@ -453,7 +453,7 @@ Cost=cost_207(channeltype,1/122.88e6,0);
     %         [offset,mag] = h5gPerfectTimingOffset(pathGains,chInfo,waveformInfo.SamplingRate);
     %         rxWaveform = rxWaveform(1+offset:end, :);
     %         terror=offset/txinfo.SamplingRate*1e9;
-    %         fprintf('¶¨Ê±¶ÔÆëÎó²î£º %0.3fns\n',terror);
+    %         fprintf('å®šæ—¶å¯¹é½è¯¯å·®ï¼š %0.3fns\n',terror);
     %
 %             %Add frequency offset impairment to received waveform
 %             foffset = 50.0;         % Frequency offset in Hertz
@@ -516,40 +516,40 @@ Cost=cost_207(channeltype,1/122.88e6,0);
                   codedTrBlock_Eq(codedTrBlock_Eq>0)=1;
                   codedTrBlock_Eq(codedTrBlock_Eq == 0) = -1;
                   decState = [];
-                  [rxdata,~,decState] = h5gDLSCHDecode_modify(gnb,pdsch,trBlk,codedTrBlock_Eq,decState);%½ö½öÊÇÒ»¸ö×Ó´øµÄ½ÓÊÕÅĞ¾öºóµÄÊı¾İ.
-                  txdata=trdataAll(:,port,BW);%ÄÃ³öËùÓĞµÄ×Ó´øµÄ·¢ËÍÊı¾İ.
+                  [rxdata,~,decState] = h5gDLSCHDecode_modify(gnb,pdsch,trBlk,codedTrBlock_Eq,decState);%ä»…ä»…æ˜¯ä¸€ä¸ªå­å¸¦çš„æ¥æ”¶åˆ¤å†³åçš„æ•°æ®.
+                  txdata=trdataAll(:,port,BW);%æ‹¿å‡ºæ‰€æœ‰çš„å­å¸¦çš„å‘é€æ•°æ®.
                   err_port=length(find(rxdata~=txdata));
                   rxdataAll(:,port,BW)=rxdata;
-                  fprintf('error bits in port %2d µÄ¸öÊıÎª: %d\n',port,err_port);
-                  err_allusers=err_allusers+err_port;%Ò»¸ö×Ó´øÉÏµÄËùÓĞÓÃ»§µÄ´íÎó¹À¼Æ±ÈÌØ.
+                  fprintf('error bits in port %2d çš„ä¸ªæ•°ä¸º: %d\n',port,err_port);
+                  err_allusers=err_allusers+err_port;%ä¸€ä¸ªå­å¸¦ä¸Šçš„æ‰€æœ‰ç”¨æˆ·çš„é”™è¯¯ä¼°è®¡æ¯”ç‰¹.
                   
 %                   figure
 %                   plot(pdschRxEq(:,port), 'o', 'MarkerEdgeColor', [0 0 0.75], ...
-%                       'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('¾ùºâºó','FontSize',8);
+%                       'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('å‡è¡¡å','FontSize',8);
 %                   axis([-1,1,-1,1].*2);
           
               end
               err_allbws=err_allbws+err_allusers;
 %             figure
 %             plot(pdschRx(:,1), 'o', 'MarkerEdgeColor', [0.75 0 0], ...
-%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('µÚ1²ãÊı¾İ¾ùºâÇ°','FontSize',8);
+%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('ç¬¬1å±‚æ•°æ®å‡è¡¡å‰','FontSize',8);
 %             axis([-1 1 -1 1]);
 %             figure
 %             plot(pdschRxEq(:,1), 'o', 'MarkerEdgeColor', [0 0.75 0], ...
-%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('µÚ1²ãÊı¾İ¾ùºâºó','FontSize',8);
+%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('ç¬¬1å±‚æ•°æ®å‡è¡¡å','FontSize',8);
 % %             axis([-1 1 -1 1]);
 %             figure
 %             plot(pdschRx(:,4), 'o', 'MarkerEdgeColor', [0.75 0 0], ...
-%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('µÚ4²ãÊı¾İ¾ùºâÇ°','FontSize',8);
+%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('ç¬¬4å±‚æ•°æ®å‡è¡¡å‰','FontSize',8);
 %             axis([-1 1 -1 1]);
 %             figure
 %             plot(pdschRxEq(:,4), 'o', 'MarkerEdgeColor', [0 0.75 0], ...
-%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('µÚ4²ãÊı¾İ¾ùºâºó','FontSize',8);
+%                 'MarkerFaceColor', [1 0.25 0.25], 'MarkerSize',3);title('ç¬¬4å±‚æ•°æ®å‡è¡¡å','FontSize',8);
 %             axis([-1 1 -1 1]);
         end
         fprintf('===============================================================================\n');
         ber_snr(snrIdx,:)=err_allbws./(size(trdataAll,1)*size(trdataAll,2)*5);
-        fprintf("SNRIn id is : %2d,¶ÔÓ¦µÄÎóÂëÂÊÎª %d .\n",SNRIn(snrIdx),ber_snr(snrIdx,:));
+        fprintf("SNRIn id is : %2d,å¯¹åº”çš„è¯¯ç ç‡ä¸º %d .\n",SNRIn(snrIdx),ber_snr(snrIdx,:));
 %     end           
 end   
 toc
